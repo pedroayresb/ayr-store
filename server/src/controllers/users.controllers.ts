@@ -12,7 +12,7 @@ const changePassword = async (req: Request, res: Response) => {
   const { password } = req.body;
   const { locals: { user } } = res;
 
-  const updatedUser = await updatePassword(user.username, password);
+  const updatedUser = await updatePassword(user.id, password);
 
   res.status(200).json(updatedUser);
 };
@@ -21,7 +21,7 @@ const changeUsername = async (req: Request, res: Response) => {
   const { username } = req.body;
   const { locals: { user } } = res;
 
-  const updatedUser = await updateUsername(user.username, username);
+  const updatedUser = await updateUsername(user.id, username);
 
   res.status(200).json(updatedUser);
 };

@@ -1,5 +1,6 @@
 import jwt from 'jsonwebtoken';
 import UserModel from '../models/Users';
+import CryptoJS from 'crypto-js';
 
 const secret: string = process.env.JWT_SECRET || 'secret';
 
@@ -8,7 +9,8 @@ const registerUser = async (
   email: string,
   password: string,
 ) => {
-  const newUser = new UserModel(username, password, email, 1);
+  const encryptedPassword = CryptoJS.SHA256(password).toString();
+  const newUser = new UserModel(username, encryptedPassword, email, 1);
   const addedUserId = await newUser.save();
 
   const token = jwt.sign({ data: addedUserId }, secret);
@@ -16,16 +18,17 @@ const registerUser = async (
   return { token };
 };
 
-const updatePassword = async (username: string, password: string) => {
+const updatePassword = async (id: number, password: string) => {
+  const encryptedPassword = CryptoJS.SHA256(password).toString();
   const user = new UserModel('', '', '', 1);
-  const updatedUser = await user.changePassword(username, password);
+  const updatedUser = await user.changePassword(id, encryptedPassword);
 
   return updatedUser;
 }
 
-const updateUsername = async (username: string, newUsername: string) => {
+const updateUsername = async (id: number, newUsername: string) => {
   const user = new UserModel('', '', '', 1);
-  const updatedUser = await user.changeUsername(username, newUsername);
+  const updatedUser = await user.changeUsername(id, newUsername);
 
   return updatedUser;
 }
