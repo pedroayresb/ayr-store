@@ -13,7 +13,7 @@ const registerUser = async (
   const newUser = new UserModel(username, encryptedPassword, email, 1);
   const addedUserId = await newUser.save();
 
-  const token = jwt.sign({ data: addedUserId }, secret);
+  const token = jwt.sign({ id: addedUserId }, secret);
 
   return { token };
 };
@@ -33,5 +33,12 @@ const updateUsername = async (id: number, newUsername: string) => {
   return updatedUser;
 }
 
+const getUserProfile = async (id: number) => {
+  const user = new UserModel('', '', '', 1);
+  const profile = await user.getProfile(id);
 
-export { registerUser, updatePassword, updateUsername };
+  return profile;
+}
+
+
+export { registerUser, updatePassword, updateUsername, getUserProfile };

@@ -5,6 +5,8 @@ import connection from './connection';
 class User {
   private connection: Pool;
 
+  id?: number;
+
   username?: string;
 
   password?: string;
@@ -14,7 +16,8 @@ class User {
   experience?: number;
 
 
-  constructor(username: string, password: string, email: string, experience: number) {
+  constructor(username: string, password: string, email: string, experience: number, id?: number) {
+    this.id = id
     this.username = username;
     this.password = password;
     this.email = email;
@@ -55,7 +58,15 @@ class User {
   public async login(user: string): Promise<User[]> {
     const [users] = await this.connection.execute(`
       SELECT * FROM Ayrshop.users 
-      WHERE username = '${user}'`);
+      WHERE username = '${user}'
+      OR email = '${user}'`);
+    return users as User[];
+  }
+
+  public async getProfile(id: number): Promise<User[]> {
+    const [users] = await this.connection.execute(`
+      SELECT * FROM Ayrshop.users
+      WHERE id = '${id}'`);
     return users as User[];
   }
 }

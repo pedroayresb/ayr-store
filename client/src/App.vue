@@ -1,9 +1,12 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </nav>
-  <router-view />
+  <div>
+    <nav>
+      <router-link to="/">Inicio</router-link> |
+      <router-link to="/about">Sobre</router-link> |
+      <router-link to="/login">Entrar ou Registrar</router-link>
+    </nav>
+    <router-view />
+  </div>
 </template>
 
 <style>
@@ -12,7 +15,7 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
+  color: #374151;
 }
 
 nav {

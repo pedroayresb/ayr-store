@@ -20,7 +20,7 @@ const userLogim = async (username: string, password: string) => {
     return null;
   }
 
-  const token = jwt.sign({ data: loggedUser }, secret);
+  const token = jwt.sign({ id: loggedUser!.id }, secret);
 
   return token as string;
 };

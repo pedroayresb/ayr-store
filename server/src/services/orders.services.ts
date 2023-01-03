@@ -10,6 +10,7 @@ const newOrder = async (userId: string, products: ProductsInterface[]) => {
 
 const getOrders = async (userId: string) => {
   const order = new Orders(userId, []);
+
   const orders = await order.getFromUser(userId);
 
   return orders;

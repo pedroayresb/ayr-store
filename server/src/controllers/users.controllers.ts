@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { registerUser, updatePassword, updateUsername } from '../services/users.services';
+import { registerUser, updatePassword, updateUsername, getUserProfile } from '../services/users.services';
 
 const register = async (req: Request, res: Response) => {
   const { username, email, password } = req.body;
@@ -26,5 +26,13 @@ const changeUsername = async (req: Request, res: Response) => {
   res.status(200).json(updatedUser);
 };
 
+const getProfile = async (req: Request, res: Response) => {
+  const { locals: { user } } = res;
 
-export { register, changePassword, changeUsername }; 
+  const profile = await getUserProfile(user.id);
+
+  res.status(200).json(profile);
+};
+
+
+export { register, changePassword, changeUsername, getProfile }; 

@@ -1,7 +1,7 @@
 
 
 import Router from 'express';
-import { register, changePassword, changeUsername } from '../controllers/users.controllers';
+import { register, changePassword, changeUsername, getProfile } from '../controllers/users.controllers';
 import {
   validateUsername,
   validateEmail,
@@ -19,6 +19,7 @@ router
     register,
   )
   .put('/change-password', validateToken, validatePassword, changePassword)
-  .put('/change-username', validateToken, validateUsername, changeUsername);
+  .put('/change-username', validateToken, validateUsername, changeUsername)
+  .get('/get-user', validateToken, getProfile);
 
 export default router;

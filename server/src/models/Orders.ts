@@ -19,17 +19,17 @@ class Orders {
 
   async save() {
     const [{ insertId }] = await this.connection.execute<ResultSetHeader>(
-      'INSERT INTO Trybesmith.orders (user_id) VALUES (?)',
+      'INSERT INTO Ayrshop.orders (user_id) VALUES (?)',
       [this.userId],
     );
     Promise.all(this.productsId!.map(async (product) => {
       await this.connection.execute<ResultSetHeader>(
-        'INSERT INTO Trybesmith.products (order_id, product_id, quantity) VALUES (?, ?)',
+        'INSERT INTO Ayrshop.products (order_id, product_id, quantity) VALUES (?, ?)',
         [insertId, product.id, product.quantity],
       );
     }));
     const [order] = await this.connection.execute(
-      'SELECT * FROM Trybesmith.products WHERE order_id = ?',
+      'SELECT * FROM Ayrshop.products WHERE order_id = ?',
       [insertId],
     );
     return order;
@@ -37,11 +37,7 @@ class Orders {
 
   async getFromUser(userId: string) {
     const [orders] = await this.connection.execute(
-      `SELECT product_id, quantity 
-      FROM Trybesmith.products 
-      INNER JOIN Trybesmith.orders
-      ON Trybesmith.products.order_id = Trybesmith.orders.id
-      WHERE Trybesmith.orders.user_id = ?`,
+      `SELECT * FROM Ayrshop.products INNER JOIN Ayrshop.orders ON Ayrshop.products.orderId = Ayrshop.orders.id WHERE Ayrshop.orders.userId = ?`,
       [userId],
     );
     return orders;

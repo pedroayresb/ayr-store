@@ -12,7 +12,6 @@ const newOrderController = async (req: Request, res: Response) => {
 
 const getOrdersController = async (req: Request, res: Response) => {
   const { locals: { user } } = res;
-
   const orders = await getOrders(user.id);
 
   res.status(200).json(orders);
