@@ -110,7 +110,7 @@ interface ChannelsInterface {
 }
 
 export interface CategoriesInterface {
-  id?: string;
+  id: string;
   name?: string;
   picture?: string;
   total_items_in_this_category?: number;

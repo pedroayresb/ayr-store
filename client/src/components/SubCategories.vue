@@ -4,14 +4,14 @@
     @mouseleave="showOptions = false"
     className="options-1"
   >
-    <p @click="updateProducts">
+    <p @click="updateProducts(category?.id)">
       {{ category?.name }}
     </p>
-    <div v-if="showOptions">
-      <SubCategoriesVue
-        v-for="subCategory in category?.children_categories"
-        :key="subCategory.id"
-        :category="subCategory"
+    <div v-if="showOptions" className="options-3">
+      <SubSubCategoriesVue
+        v-for="subSubCategory in category?.children_categories"
+        :key="subSubCategory.id"
+        :category="subSubCategory"
       />
     </div>
   </div>
@@ -32,30 +32,27 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import store from "../store";
-import SubCategoriesVue from "./SubCategories.vue";
+import SubSubCategoriesVue from "./SubSubCategories.vue";
 
 export default defineComponent({
-  name: "CategoriesContainer",
+  name: "SubCategoriesContainer",
   props: {
     category: Object,
   },
   components: {
-    SubCategoriesVue,
+    SubSubCategoriesVue,
   },
   data() {
     return {
       showOptions: false,
-      showSecondOptions: false,
-      showThirdOptions: false,
-      showFourthOptions: false,
     };
   },
   methods: {
-    updateProducts() {
+    updateProducts(category: string) {
       store.dispatch("setCategory", this.category);
       store.dispatch("resetPage");
       store.dispatch("getProducts", {
-        category: this.category?.id,
+        category: category,
         page: store.state.page,
       });
     },

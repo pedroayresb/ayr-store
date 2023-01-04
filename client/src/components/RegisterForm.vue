@@ -2,25 +2,46 @@
   <form>
     <div>
       <label htmlFor="name">Nome de usuario: </label>
-      <input type="text" name="name" />
+      <input type="text" name="name" v-model="username" />
     </div>
     <div>
       <label htmlFor="password">Email: </label>
-      <input type="password" name="email" />
+      <input type="email" name="email" v-model="email" />
     </div>
     <div>
       <label htmlFor="password">Senha: </label>
-      <input type="password" name="password" />
+      <input type="password" name="password" v-model="password" />
     </div>
-    <button type="submit">Entrar</button>
+    <button type="button" @click="register">Entrar</button>
   </form>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
+import services from "../utils/services";
+import router from "../router";
 
 export default defineComponent({
   name: "RegisterForm",
+  data() {
+    return {
+      username: "",
+      email: "",
+      password: "",
+    };
+  },
+  methods: {
+    async register() {
+      const response = await services.register(
+        this.username,
+        this.email,
+        this.password
+      );
+      const asCookie = `token=${response}; path=/;`;
+      document.cookie = asCookie;
+      router.push("/");
+    },
+  },
 });
 </script>
 

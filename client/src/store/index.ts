@@ -73,11 +73,14 @@ export default createStore({
   actions: {
     async getCategories({ commit }, category) {
       const categories = await services.getCategories(category);
-      const allQuantity = await services.getQuantity(category);
+      categories.map(async (cate: CategoriesInterface) => {
+        const children = await services.getAllChildrenCategories(cate.id);
+        cate.children_categories = children;
+      });
       const all = {
         id: "MLB1648",
         name: "Todos",
-        total_items_in_this_category: allQuantity,
+        total_items_in_this_category: await services.getQuantity(category),
       };
       categories.unshift(all);
       commit("setCategories", categories);

@@ -1,5 +1,8 @@
 import axios from "axios";
-import { ProductsInterface } from "../interfaces/orders.interfaces";
+import {
+  ProductsInterface,
+  CategoriesInterface,
+} from "../interfaces/orders.interfaces";
 
 export default {
   async login(username: string, password: string) {
@@ -10,9 +13,9 @@ export default {
     return data.token;
   },
 
-  async register(name: string, email: string, password: string) {
+  async register(username: string, email: string, password: string) {
     const { data } = await axios.post("http://localhost:5000/users", {
-      name,
+      username,
       email,
       password,
     });
@@ -66,5 +69,34 @@ export default {
       `https://api.mercadolibre.com/sites/MLB/search?category=${category}&offset=${offset}`
     );
     return data.results;
+  },
+
+  async getAllChildrenCategories(id: string) {
+    const childs = await this.getCategories(id);
+    childs.map(async (child: CategoriesInterface) => {
+      const childs1 = await this.getCategories(child.id);
+      if (childs1.length > 0) {
+        childs1.map(async (child1: CategoriesInterface) => {
+          const childs2 = await this.getCategories(child1.id);
+          if (childs2.length > 0) {
+            childs2.map(async (child2: CategoriesInterface) => {
+              const childs3 = await this.getCategories(child2.id);
+              if (childs3.length > 0) {
+                childs3.map(async (child3: CategoriesInterface) => {
+                  const childs4 = await this.getCategories(child3.id);
+                  if (childs4.length > 0) {
+                    child3.children_categories = childs4;
+                  }
+                });
+                child2.children_categories = childs3;
+              }
+            });
+            child1.children_categories = childs2;
+          }
+        });
+        child.children_categories = childs1;
+      }
+    });
+    return childs;
   },
 };
