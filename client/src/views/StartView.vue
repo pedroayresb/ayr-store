@@ -5,8 +5,9 @@
       src="../assets/logo-no-background.png"
       className="logo"
     />
-    <HomePage msg="This will be my start page" />
+    <HomePage />
     <CategoriesContainer />
+    <PagesContainer />
     <ProductsContainer />
     <PagesContainer />
   </div>
@@ -35,6 +36,13 @@ export default defineComponent({
     CategoriesContainer,
     ProductsContainer,
     PagesContainer,
+  },
+  setup() {
+    const store = useStore();
+    const getCookie = document.cookie.split("=")[1];
+    if (getCookie) {
+      store.dispatch("getUser", getCookie);
+    }
   },
   data() {
     const store = useStore();

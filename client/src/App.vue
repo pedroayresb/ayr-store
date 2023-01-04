@@ -1,9 +1,7 @@
 <template>
   <div>
     <nav>
-      <router-link to="/">Inicio</router-link> |
-      <router-link to="/about">Sobre</router-link> |
-      <router-link to="/login">Entrar ou Registrar</router-link>
+      <router-link to="/">Inicio</router-link>
     </nav>
     <router-view />
   </div>

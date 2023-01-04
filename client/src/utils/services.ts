@@ -2,18 +2,32 @@ import axios from "axios";
 import { ProductsInterface } from "../interfaces/orders.interfaces";
 
 export default {
-  async login(email: string, password: string) {
-    const { data } = await axios.post("/login", { email, password });
-    return data;
+  async login(username: string, password: string) {
+    const { data } = await axios.post("http://localhost:5000/login", {
+      username,
+      password,
+    });
+    return data.token;
   },
 
   async register(name: string, email: string, password: string) {
-    const { data } = await axios.post("/users", { name, email, password });
-    return data;
+    const { data } = await axios.post("http://localhost:5000/users", {
+      name,
+      email,
+      password,
+    });
+    return data.token;
+  },
+
+  async getProfile(cookies: string) {
+    const { data } = await axios.get("http://localhost:5000/users/get-user", {
+      headers: { Authorization: cookies },
+    });
+    return data[0];
   },
 
   async getOrders(cookies: string) {
-    const { data } = await axios.get("/orders", {
+    const { data } = await axios.get("http://localhost:5000/orders", {
       headers: { Authorization: cookies },
     });
     return data;
@@ -21,7 +35,7 @@ export default {
 
   async createOrder(products: ProductsInterface[], cookies: string) {
     const { data } = await axios.post(
-      "/orders",
+      "http://localhost:5000/orders",
       {
         products,
       },

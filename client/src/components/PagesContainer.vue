@@ -35,6 +35,7 @@ export default defineComponent({
         category: this.category?.id,
         page: store.state.page,
       });
+      store.dispatch("setPageLoading", false);
     },
     previousPage() {
       store.dispatch("pageDown");
