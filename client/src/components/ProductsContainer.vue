@@ -10,6 +10,11 @@
         <img :src="product.thumbnail" />
         <p>{{ product.title }}</p>
         <p>R$ {{ product.price.toFixed(2) }}</p>
+        <AddToCartButtonVue :product="product" v-if="!isInCart(product.id)" />
+        <QuantityEditorVue
+          :product="productInCart(product.id)"
+          v-if="isInCart(product.id)"
+        />
       </div>
     </div>
   </div>
@@ -40,11 +45,30 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import { mapState } from "vuex";
+import AddToCartButtonVue from "./AddToCartButton.vue";
+import QuantityEditorVue from "./QuantityEditor.vue";
+import store from "../store";
 
 export default defineComponent({
   name: "ProductsContainer",
+  components: {
+    AddToCartButtonVue,
+    QuantityEditorVue,
+  },
   computed: {
-    ...mapState(["products", "pageLoading"]),
+    ...mapState(["products", "pageLoading", "cart"]),
+  },
+  setup() {
+    const isInCart = (product: string) => {
+      return store.state.cart.some((item: any) => item.productId === product);
+    };
+    const productInCart = (product: string) => {
+      return store.state.cart.find((item: any) => item.productId === product);
+    };
+    return {
+      isInCart,
+      productInCart,
+    };
   },
 });
 </script>

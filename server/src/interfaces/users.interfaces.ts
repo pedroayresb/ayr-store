@@ -4,4 +4,5 @@ export interface AddedUserInterface {
   email: string;
   experience: number;
   password: string;
+  cartId: number;
 }

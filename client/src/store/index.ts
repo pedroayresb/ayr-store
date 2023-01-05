@@ -9,7 +9,6 @@ export default createStore({
   state: {
     categories: [] as CategoriesInterface[],
     page: 1,
-    clicked: false,
     products: [] as ProductsInterface[],
     category: {
       id: "MLB1648",
@@ -23,6 +22,7 @@ export default createStore({
       password: "",
       experience: 0,
     },
+    cart: [],
   },
   getters: {
     getCategories(state) {
@@ -30,9 +30,6 @@ export default createStore({
     },
     getPage(state) {
       return state.page;
-    },
-    getClicked(state) {
-      return state.clicked;
     },
     getProducts(state) {
       return state.products;
@@ -46,6 +43,9 @@ export default createStore({
     getUser(state) {
       return state.user;
     },
+    getCart(state) {
+      return state.cart;
+    },
   },
   mutations: {
     setCategories(state, categories) {
@@ -53,9 +53,6 @@ export default createStore({
     },
     setPage(state, page) {
       state.page = page;
-    },
-    setClicked(state, clicked) {
-      state.clicked = clicked;
     },
     setProducts(state, products) {
       state.products = products;
@@ -68,6 +65,9 @@ export default createStore({
     },
     setUser(state, user) {
       state.user = user;
+    },
+    setCart(state, cart) {
+      state.cart = cart;
     },
   },
   actions: {
@@ -109,6 +109,15 @@ export default createStore({
     },
     setLoading({ commit }, pageLoading) {
       commit("setPageLoading", pageLoading);
+    },
+    async getCart({ commit }, cookies) {
+      const cart = await services.getCart(cookies);
+      commit("setCart", cart);
+    },
+    async addToCart({ commit }, { cookies, product }) {
+      await services.addToCart(cookies, product);
+      const cart = await services.getCart(cookies);
+      commit("setCart", cart);
     },
   },
   modules: {},

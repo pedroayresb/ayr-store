@@ -42,6 +42,7 @@ export default defineComponent({
     const getCookie = document.cookie.split("=")[1];
     if (getCookie) {
       store.dispatch("getUser", getCookie);
+      store.dispatch("getCart", getCookie);
     }
   },
   data() {

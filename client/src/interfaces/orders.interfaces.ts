@@ -8,7 +8,7 @@ interface ShippingInterface {
 }
 
 export interface ProductsInterface {
-  id?: string;
+  id: string;
   title?: string;
   condition?: string;
   thumbnail_id?: string;
@@ -46,10 +46,10 @@ export interface ProductsInterface {
 }
 
 export interface OrdersInterface {
-  id?: number;
+  id: number;
   userId?: string;
   productId?: string;
-  quantity?: number;
+  quantity: number;
 }
 
 interface PathFromRootInterface {

@@ -71,6 +71,7 @@ export default {
     return data.results;
   },
 
+  // eu sei que essa funcao esta horrivel, mas a API do mercado livre nao facilita para conseguir todas as subcategorias //
   async getAllChildrenCategories(id: string) {
     const childs = await this.getCategories(id);
     childs.map(async (child: CategoriesInterface) => {
@@ -98,5 +99,25 @@ export default {
       }
     });
     return childs;
+  },
+
+  async getCart(cookies: string) {
+    const { data } = await axios.get("http://localhost:5000/cart", {
+      headers: { Authorization: cookies },
+    });
+    return data;
+  },
+
+  async addToCart(cookies: string, product: string[]) {
+    const { data } = await axios.post(
+      "http://localhost:5000/cart",
+      {
+        products: product,
+      },
+      {
+        headers: { Authorization: cookies },
+      }
+    );
+    return data;
   },
 };

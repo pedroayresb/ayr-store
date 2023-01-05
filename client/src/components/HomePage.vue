@@ -1,6 +1,7 @@
 <template>
   <div v-if="user.username.length !== 0">
     <p>User: {{ user.username }}</p>
+    <p>Cart: {{ cart.length }}</p>
     <button @click="logout">Logout</button>
   </div>
   <div v-else>
@@ -15,7 +16,7 @@ import { mapState } from "vuex";
 export default defineComponent({
   name: "HomePage",
   computed: {
-    ...mapState(["user"]),
+    ...mapState(["user", "cart"]),
   },
   methods: {
     logout() {

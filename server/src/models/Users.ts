@@ -26,9 +26,14 @@ class User {
   }
 
   async save(): Promise<number> {
+    const cartId = await this.connection.execute<ResultSetHeader>(
+      'INSERT INTO Ayrshop.cart (id) VALUES (DEFAULT)',
+      [],
+    );
+    const cartIdNumber = cartId[0].insertId as number;
     const [{ insertId }] = await this.connection.execute<ResultSetHeader>(
-      'INSERT INTO Ayrshop.users (username, password, email, experience) VALUES (?, ?, ?, ?)',
-      [this.username, this.password, this.email, 1],
+      'INSERT INTO Ayrshop.users (username, password, email, experience, cartId) VALUES (?, ?, ?, ?, ?)',
+      [this.username, this.password, this.email, 1, cartIdNumber],
     );
     return insertId as number;
   }

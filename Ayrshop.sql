@@ -1,13 +1,19 @@
--- Active: 1672694681625@@127.0.0.1@3306@Ayrshop
+-- Active: 1672694681625@@127.0.0.1@3306
 DROP SCHEMA IF EXISTS Ayrshop;
 CREATE SCHEMA IF NOT EXISTS Ayrshop;
+
+CREATE TABLE Ayrshop.cart (
+  id INTEGER AUTO_INCREMENT PRIMARY KEY NOT NULL
+);
 
 CREATE TABLE Ayrshop.users (
   id INTEGER AUTO_INCREMENT PRIMARY KEY NOT NULL,
   username TEXT NOT NULL,
   email TEXT NOT NULL,
   experience INTEGER NOT NULL,
-  password TEXT NOT NULL
+  cartId INTEGER NOT NULL,
+  password TEXT NOT NULL,
+  FOREIGN KEY (cartId) REFERENCES Ayrshop.cart(id)
 );
 
 CREATE TABLE Ayrshop.orders (
@@ -24,13 +30,29 @@ CREATE TABLE Ayrshop.products (
   FOREIGN KEY (orderId) REFERENCES Ayrshop.orders(id)
 );
 
+CREATE TABLE Ayrshop.cart_products (
+  id INTEGER AUTO_INCREMENT PRIMARY KEY NOT NULL,
+  cartId INTEGER NOT NULL,
+  productId TEXT NOT NULL,
+  quantity INTEGER NOT NULL,
+  FOREIGN KEY (cartId) REFERENCES Ayrshop.cart(id)
+);
+
 INSERT INTO
-  Ayrshop.users (username, email, experience, password)
+  Ayrshop.cart (id)
 VALUES
-  ('Pedro', 'pedroayresb@gmail.com', 10, "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92"),
-  ('João', 'joaoaaa@hotmail.com', 5, '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92'),
-  ('Maria', 'maria@dropbox.com', 8, '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92'),
-  ('José', 'jose@outlook.com', 15, '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92');
+  (1),
+  (2),
+  (3),
+  (4);
+
+INSERT INTO
+  Ayrshop.users (username, email, experience, cartId, password)
+VALUES
+  ('user1', 'user1@email.com', 10, 1, 'pedro123'),
+  ('user2', 'user2@email.com', 8, 2, 'pedro123'),
+  ('user3', 'user3@email.com', 5, 3, 'pedro123'),
+  ('user4', 'user4@email.com', 9, 4, 'pedro123');
 
 INSERT INTO
   Ayrshop.orders (userId)
@@ -43,11 +65,31 @@ VALUES
 INSERT INTO
   Ayrshop.products (orderId, productId, quantity)
 VALUES
-  (1, 'MLB123', 2),
-  (1, 'MLB456', 1),
-  (2, 'MLB789', 3),
-  (2, 'MLB012', 1),
-  (3, 'MLB345', 2),
-  (3, 'MLB678', 1),
-  (4, 'MLB901', 3),
-  (4, 'MLB234', 1);
+  (1, "MLB2963295692", 1),
+  (1, "MLB2633286177", 2),
+  (1, "MLB2147325018", 3),
+  (2, "MLB2918838848", 4),
+  (2, "MLB1972755984", 5),
+  (2, "MLB2215400913", 6),
+  (3, "MLB2963295692", 7),
+  (3, "MLB2633286177", 8),
+  (3, "MLB1972755984", 9),
+  (4, "MLB2963295692", 10),
+  (4, "MLB2633286177", 11),
+  (4, "MLB1972755984", 12);
+
+INSERT INTO
+  Ayrshop.cart_products (cartId, productId, quantity)
+VALUES
+  (1, "MLB2963295692", 1),
+  (1, "MLB2633286177", 2),
+  (1, "MLB2147325018", 3),
+  (2, "MLB2918838848", 4),
+  (2, "MLB1972755984", 5),
+  (2, "MLB2215400913", 6),
+  (3, "MLB2963295692", 7),
+  (3, "MLB2633286177", 8),
+  (3, "MLB1972755984", 9),
+  (4, "MLB2963295692", 10),
+  (4, "MLB2633286177", 11),
+  (4, "MLB1972755984", 12);

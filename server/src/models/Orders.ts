@@ -32,6 +32,10 @@ class Orders {
       'SELECT * FROM Ayrshop.products WHERE order_id = ?',
       [insertId],
     );
+    await this.connection.execute(
+      'DELETE FROM Ayrshop.cart WHERE userId = ? CASCADE',
+      [this.userId],
+    );
     return order;
   }
 
