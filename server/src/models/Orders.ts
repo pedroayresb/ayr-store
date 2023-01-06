@@ -19,22 +19,26 @@ class Orders {
 
   async save() {
     const [{ insertId }] = await this.connection.execute<ResultSetHeader>(
-      'INSERT INTO Ayrshop.orders (user_id) VALUES (?)',
+      'INSERT INTO Ayrshop.orders (userId) VALUES (?)',
       [this.userId],
     );
     Promise.all(this.productsId!.map(async (product) => {
       await this.connection.execute<ResultSetHeader>(
-        'INSERT INTO Ayrshop.products (order_id, product_id, quantity, price) VALUES (?, ?, ?, ?)',
+        'INSERT INTO Ayrshop.products (orderId, productId, quantity, price) VALUES (?, ?, ?, ?)',
         [insertId, product.id, product.quantity, product.price],
       );
     }));
     const [order] = await this.connection.execute(
-      'SELECT * FROM Ayrshop.products WHERE order_id = ?',
+      'SELECT * FROM Ayrshop.products WHERE orderId = ?',
       [insertId],
     );
-    await this.connection.execute(
-      'DELETE FROM Ayrshop.cart WHERE userId = ? CASCADE',
+    const [cartId] = await this.connection.execute<ResultSetHeader>(
+      'SELECT cartId FROM Ayrshop.users WHERE id = ?',
       [this.userId],
+    ) as any;
+    await this.connection.execute(
+      'DELETE FROM Ayrshop.cart_products WHERE cartId = ?',
+      [cartId[0].cartId],
     );
     return order;
   }

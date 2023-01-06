@@ -47,6 +47,7 @@ export default defineComponent({
       category: "MLB1648",
       page: store.state.page,
     });
+    return {};
   },
 });
 </script>

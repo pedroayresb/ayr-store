@@ -19,13 +19,13 @@ class Cart {
   }
 
   async save() {
-    const cartId = await this.connection.execute<OkPacket[]>(
+    const [cartId] = await this.connection.execute<OkPacket[]>(
       `SELECT cartId FROM Ayrshop.users WHERE id = ?`,
       [this.userId],
     );
     const [Cart] = await this.connection.execute<ResultSetHeader>(
       `INSERT INTO Ayrshop.cart_products (cartId, productId, quantity, price) VALUES (?, ?, ?, ?)`,
-      [Object.values(cartId[0][0])[0], this.productsId![0].id, this.productsId![0].quantity, this.productsId![0].price],
+      [Object.values(cartId[0])[0], this.productsId![0].id, this.productsId![0].quantity, this.productsId![0].price],
     );
     return Cart;
   }

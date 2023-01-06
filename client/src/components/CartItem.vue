@@ -1,13 +1,14 @@
 <template>
   <div>
-    <div class="cart-item">
-      <div class="cart-item__image">
+    <div class="cart-item" @click.self="routeToProduct(product.id)">
+      <div class="cart-item__image" @click="routeToProduct(product.id)">
         <img :src="product.thumbnail" alt="product image" />
       </div>
-      <div class="cart-item__info">
-        <p>{{ product.title }}</p>
-        <p className="price">
-          R$ {{ (item.price * item.quantity).toFixed(2) }}
+      <div class="cart-item__info" @click.self="routeToProduct(product.id)">
+        <p @click.self="routeToProduct(product.id)">{{ product.title }}</p>
+        <p className="price" @click.self="routeToProduct(product.id)">
+          R$ {{ item.price.toFixed(2) }} * {{ item.quantity }} = R$
+          {{ (item.price * item.quantity).toFixed(2) }}
         </p>
         <QuantityEditorVue :product="item" />
       </div>
@@ -23,6 +24,7 @@ import {
 } from "../interfaces/orders.interfaces";
 import services from "../utils/services";
 import QuantityEditorVue from "./QuantityEditor.vue";
+import router from "../router";
 
 export default defineComponent({
   name: "CartItem",
@@ -53,6 +55,11 @@ export default defineComponent({
     this.getProduct(this.item.productId).then((response) => {
       this.product = response as ProductsInterface;
     });
+  },
+  methods: {
+    routeToProduct(id: string) {
+      router.push(`/${id}`);
+    },
   },
 });
 </script>

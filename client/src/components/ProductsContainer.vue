@@ -53,6 +53,7 @@ import { defineComponent } from "vue";
 import { mapState } from "vuex";
 import AddToCartButtonVue from "./AddToCartButton.vue";
 import QuantityEditorVue from "./QuantityEditor.vue";
+import { OrdersInterface } from "../interfaces/orders.interfaces";
 import store from "../store";
 import router from "../router";
 
@@ -67,10 +68,14 @@ export default defineComponent({
   },
   setup() {
     const isInCart = (product: string) => {
-      return store.state.cart.some((item: any) => item.productId === product);
+      return store.state.cart.some(
+        (item: OrdersInterface) => item.productId === product
+      );
     };
     const productInCart = (product: string) => {
-      return store.state.cart.find((item: any) => item.productId === product);
+      return store.state.cart.find(
+        (item: OrdersInterface) => item.productId === product
+      );
     };
     return {
       isInCart,

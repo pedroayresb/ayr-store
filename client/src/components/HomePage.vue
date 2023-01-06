@@ -1,6 +1,6 @@
 <template>
   <div v-if="user.username.length !== 0">
-    <p>User: {{ user.username }}</p>
+    <router-link to="/user">User: {{ user.username }}</router-link>
     <router-link to="/cart">Cart: {{ cart.length }}</router-link>
     <button @click="logout">Logout</button>
   </div>

@@ -4,7 +4,8 @@
     <div>
       <PicturesCarrouselVue :pictures="product.pictures" />
       <h1>{{ product.title }}</h1>
-      <p>{{ product.price.toFixed(2) }}</p>
+      <p>R$ {{ product.price.toFixed(2) }}</p>
+      <a v-bind:href="product.permalink">MERCADO LIVRE</a>
       <AddToCartButtonVue :product="product" v-if="!isInCart(product.id)" />
       <QuantityEditorVue
         :product="productInCart(product.id)"
@@ -17,6 +18,7 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import { mapState, useStore } from "vuex";
+import { OrdersInterface } from "../interfaces/orders.interfaces";
 import HomePageVue from "../components/HomePage.vue";
 import PicturesCarrouselVue from "../components/PicturesCarrousel.vue";
 import AddToCartButtonVue from "../components/AddToCartButton.vue";
@@ -41,18 +43,20 @@ export default defineComponent({
     if (getCookie) {
       store.dispatch("getUser", getCookie);
       const getProduct = async () => {
-        console.log(id);
         const response = await services.getProductInfo(id);
-        console.log(response);
         store.commit("setProduct", response);
       };
       getProduct();
     }
     const isInCart = (product: string) => {
-      return store.state.cart.some((item: any) => item.productId === product);
+      return store.state.cart.some(
+        (item: OrdersInterface) => item.productId === product
+      );
     };
     const productInCart = (product: string) => {
-      return store.state.cart.find((item: any) => item.productId === product);
+      return store.state.cart.find(
+        (item: OrdersInterface) => item.productId === product
+      );
     };
     return {
       isInCart,

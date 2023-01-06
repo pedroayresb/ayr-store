@@ -1,6 +1,6 @@
 import axios from "axios";
 import {
-  ProductsInterface,
+  OrdersInterface,
   CategoriesInterface,
 } from "../interfaces/orders.interfaces";
 
@@ -36,7 +36,7 @@ export default {
     return data;
   },
 
-  async createOrder(products: ProductsInterface[], cookies: string) {
+  async createOrder(products: OrdersInterface[], cookies: string) {
     const { data } = await axios.post(
       "http://localhost:5000/orders",
       {
