@@ -23,4 +23,11 @@ const newCart = async (userId: string, products: ProductsInterface[]) => {
   return addedOrder;
 };
 
-export { newCart, getCart };
+const deleteProductFromCart = async (userId: string, products: ProductsInterface[]) => {
+  const order = new Cart(userId, products);
+  await order.delete();
+  
+  return null;
+};
+
+export { newCart, getCart, deleteProductFromCart };

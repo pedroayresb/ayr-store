@@ -23,6 +23,7 @@ export default defineComponent({
       const product = {
         id: this.product?.id,
         quantity: 1,
+        price: this.product?.price,
       };
       const array = [product];
       const toSend = {

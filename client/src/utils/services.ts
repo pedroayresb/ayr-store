@@ -71,6 +71,13 @@ export default {
     return data.results;
   },
 
+  async getProductInfo(id: string) {
+    const { data } = await axios.get(
+      `https://api.mercadolibre.com/items/${id}`
+    );
+    return data;
+  },
+
   // eu sei que essa funcao esta horrivel, mas a API do mercado livre nao facilita para conseguir todas as subcategorias //
   async getAllChildrenCategories(id: string) {
     const childs = await this.getCategories(id);
@@ -118,6 +125,16 @@ export default {
         headers: { Authorization: cookies },
       }
     );
+    return data;
+  },
+
+  async deleteFromCart(cookies: string, product: string[]) {
+    const { data } = await axios.delete("http://localhost:5000/cart", {
+      headers: { Authorization: cookies },
+      data: {
+        products: product,
+      },
+    });
     return data;
   },
 };

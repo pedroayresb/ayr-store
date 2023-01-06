@@ -1,11 +1,11 @@
 <template>
   <div v-if="user.username.length !== 0">
     <p>User: {{ user.username }}</p>
-    <p>Cart: {{ cart.length }}</p>
+    <router-link to="/cart">Cart: {{ cart.length }}</router-link>
     <button @click="logout">Logout</button>
   </div>
   <div v-else>
-    <router-link to="/login">Login</router-link>
+    <router-link to="/login">Login | Register</router-link>
   </div>
 </template>
 

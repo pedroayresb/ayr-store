@@ -7,6 +7,15 @@ interface ShippingInterface {
   promise?: string | null;
 }
 
+export interface PicturesInterface {
+  id?: string;
+  url?: string;
+  secure_url?: string;
+  size?: string;
+  max_size?: string;
+  quality?: string;
+}
+
 export interface ProductsInterface {
   id: string;
   title?: string;
@@ -21,7 +30,7 @@ export interface ProductsInterface {
   domain_id?: string;
   thumbnail?: string;
   currency_id?: string;
-  price?: number;
+  price: number;
   original_price?: number | null;
   sale_price?: number | null;
   sold_quantity?: number;
@@ -48,8 +57,9 @@ export interface ProductsInterface {
 export interface OrdersInterface {
   id: number;
   userId?: string;
-  productId?: string;
+  productId: string;
   quantity: number;
+  price: number;
 }
 
 interface PathFromRootInterface {

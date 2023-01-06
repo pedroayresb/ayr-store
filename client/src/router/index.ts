@@ -2,6 +2,8 @@ import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 import HomePage from "../views/StartView.vue";
 import LoginView from "../views/LoginView.vue";
 import RegisterView from "../views/RegisterView.vue";
+import CartView from "../views/CartView.vue";
+import ProductView from "../views/ProductView.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -20,13 +22,14 @@ const routes: Array<RouteRecordRaw> = [
     component: RegisterView,
   },
   {
-    path: "/about",
-    name: "about",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () =>
-      import(/* webpackChunkName: "about" */ "../views/AboutView.vue"),
+    path: "/cart",
+    name: "cart",
+    component: CartView,
+  },
+  {
+    path: "/:id",
+    name: "product",
+    component: ProductView,
   },
 ];
 

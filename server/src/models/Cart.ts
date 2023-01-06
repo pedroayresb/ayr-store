@@ -24,8 +24,8 @@ class Cart {
       [this.userId],
     );
     const [Cart] = await this.connection.execute<ResultSetHeader>(
-      `INSERT INTO Ayrshop.cart_products (cartId, productId, quantity) VALUES (?, ?, ?)`,
-      [Object.values(cartId[0][0])[0], this.productsId![0].id, this.productsId![0].quantity],
+      `INSERT INTO Ayrshop.cart_products (cartId, productId, quantity, price) VALUES (?, ?, ?, ?)`,
+      [Object.values(cartId[0][0])[0], this.productsId![0].id, this.productsId![0].quantity, this.productsId![0].price],
     );
     return Cart;
   }
@@ -40,6 +40,18 @@ class Cart {
       [this.productsId![0].quantity, Object.values(cartId[0][0])[0], this.productsId![0].id],
     );
     return Cart;
+  }
+
+  async delete() {
+    const cartId = await this.connection.execute<OkPacket[]>(
+      `SELECT cartId FROM Ayrshop.users WHERE id = ?`,
+      [this.userId],
+    );
+    await this.connection.execute<ResultSetHeader>(
+      `DELETE FROM Ayrshop.cart_products WHERE cartId = ? AND productId = ?`,
+      [Object.values(cartId[0][0])[0], this.productsId![0].id],
+    );
+    return;
   }
 
   async getFromUser(userId: string) {

@@ -1,6 +1,7 @@
 export interface ProductsInterface {
   id: string;
   quantity: number;
+  price: number;
 }
 
 export interface OrdersInterface {

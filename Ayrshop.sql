@@ -27,6 +27,7 @@ CREATE TABLE Ayrshop.products (
   orderId INTEGER NOT NULL,
   productId TEXT NOT NULL,
   quantity INTEGER NOT NULL,
+  price FLOAT(2) NOT NULL,
   FOREIGN KEY (orderId) REFERENCES Ayrshop.orders(id)
 );
 
@@ -35,6 +36,7 @@ CREATE TABLE Ayrshop.cart_products (
   cartId INTEGER NOT NULL,
   productId TEXT NOT NULL,
   quantity INTEGER NOT NULL,
+  price FLOAT(2) NOT NULL,
   FOREIGN KEY (cartId) REFERENCES Ayrshop.cart(id)
 );
 
@@ -53,43 +55,3 @@ VALUES
   ('user2', 'user2@email.com', 8, 2, 'pedro123'),
   ('user3', 'user3@email.com', 5, 3, 'pedro123'),
   ('user4', 'user4@email.com', 9, 4, 'pedro123');
-
-INSERT INTO
-  Ayrshop.orders (userId)
-VALUES
-  (1),
-  (2),
-  (3),
-  (4);
-
-INSERT INTO
-  Ayrshop.products (orderId, productId, quantity)
-VALUES
-  (1, "MLB2963295692", 1),
-  (1, "MLB2633286177", 2),
-  (1, "MLB2147325018", 3),
-  (2, "MLB2918838848", 4),
-  (2, "MLB1972755984", 5),
-  (2, "MLB2215400913", 6),
-  (3, "MLB2963295692", 7),
-  (3, "MLB2633286177", 8),
-  (3, "MLB1972755984", 9),
-  (4, "MLB2963295692", 10),
-  (4, "MLB2633286177", 11),
-  (4, "MLB1972755984", 12);
-
-INSERT INTO
-  Ayrshop.cart_products (cartId, productId, quantity)
-VALUES
-  (1, "MLB2963295692", 1),
-  (1, "MLB2633286177", 2),
-  (1, "MLB2147325018", 3),
-  (2, "MLB2918838848", 4),
-  (2, "MLB1972755984", 5),
-  (2, "MLB2215400913", 6),
-  (3, "MLB2963295692", 7),
-  (3, "MLB2633286177", 8),
-  (3, "MLB1972755984", 9),
-  (4, "MLB2963295692", 10),
-  (4, "MLB2633286177", 11),
-  (4, "MLB1972755984", 12);

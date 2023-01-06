@@ -1,10 +1,5 @@
 <template>
   <div class="home">
-    <img
-      alt="Ayr Logo"
-      src="../assets/logo-no-background.png"
-      className="logo"
-    />
     <RegisterForm msg="This will be my start page" />
   </div>
 </template>

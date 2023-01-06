@@ -24,8 +24,8 @@ class Orders {
     );
     Promise.all(this.productsId!.map(async (product) => {
       await this.connection.execute<ResultSetHeader>(
-        'INSERT INTO Ayrshop.products (order_id, product_id, quantity) VALUES (?, ?)',
-        [insertId, product.id, product.quantity],
+        'INSERT INTO Ayrshop.products (order_id, product_id, quantity, price) VALUES (?, ?, ?, ?)',
+        [insertId, product.id, product.quantity, product.price],
       );
     }));
     const [order] = await this.connection.execute(

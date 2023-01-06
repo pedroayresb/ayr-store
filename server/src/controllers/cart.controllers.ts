@@ -1,4 +1,4 @@
-import { newCart, getCart } from "../services/cart.services";
+import { newCart, getCart, deleteProductFromCart } from "../services/cart.services";
 import { Request, Response } from "express";
 
 const newCartController = async (req: Request, res: Response) => {
@@ -17,4 +17,13 @@ const getCartController = async (req: Request, res: Response) => {
   res.status(200).json(cart);
 };
 
-export { newCartController, getCartController };
+const deleteProductFromCartController = async (req: Request, res: Response) => {
+  const { locals: { user } } = res;
+  const { products } = req.body;
+
+  await deleteProductFromCart(user.id, products);
+
+  res.status(200).json(null);
+};
+
+export { newCartController, getCartController, deleteProductFromCartController };

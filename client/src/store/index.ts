@@ -2,6 +2,7 @@ import { createStore } from "vuex";
 import {
   CategoriesInterface,
   ProductsInterface,
+  OrdersInterface,
 } from "../interfaces/orders.interfaces";
 import services from "../utils/services";
 
@@ -22,7 +23,9 @@ export default createStore({
       password: "",
       experience: 0,
     },
-    cart: [],
+    cart: [] as OrdersInterface[],
+    subtotal: 0,
+    product: {} as ProductsInterface,
   },
   getters: {
     getCategories(state) {
@@ -46,6 +49,12 @@ export default createStore({
     getCart(state) {
       return state.cart;
     },
+    getSubtotal(state) {
+      return state.subtotal;
+    },
+    getProduct(state) {
+      return state.product;
+    },
   },
   mutations: {
     setCategories(state, categories) {
@@ -68,6 +77,12 @@ export default createStore({
     },
     setCart(state, cart) {
       state.cart = cart;
+    },
+    setSubtotal(state, subtotal) {
+      state.subtotal = subtotal;
+    },
+    setProduct(state, product) {
+      state.product = product;
     },
   },
   actions: {
@@ -111,13 +126,42 @@ export default createStore({
       commit("setPageLoading", pageLoading);
     },
     async getCart({ commit }, cookies) {
-      const cart = await services.getCart(cookies);
+      const cart = (await services.getCart(cookies)) as OrdersInterface[];
+      const allprices = [] as number[];
+      cart.map((product) => {
+        const price = Number(product.price * product.quantity);
+        allprices.push(Number(price.toFixed(2)));
+      });
+      const subtotal = allprices.reduce((a, b) => a + b, 0);
       commit("setCart", cart);
+      commit("setSubtotal", subtotal);
     },
     async addToCart({ commit }, { cookies, product }) {
       await services.addToCart(cookies, product);
-      const cart = await services.getCart(cookies);
+      const cart = (await services.getCart(cookies)) as OrdersInterface[];
+      const allprices = [] as number[];
+      cart.map((product) => {
+        const price = Number(product.price * product.quantity);
+        allprices.push(Number(price.toFixed(2)));
+      });
+      const subtotal = allprices.reduce((a, b) => a + b, 0);
       commit("setCart", cart);
+      commit("setSubtotal", subtotal);
+    },
+    async deleteFromCart({ commit }, { cookies, product }) {
+      await services.deleteFromCart(cookies, product);
+      const cart = (await services.getCart(cookies)) as OrdersInterface[];
+      const allprices = [] as number[];
+      cart.map((product) => {
+        const price = Number(product.price * product.quantity);
+        allprices.push(Number(price.toFixed(2)));
+      });
+      const subtotal = allprices.reduce((a, b) => a + b, 0);
+      commit("setCart", cart);
+      commit("setSubtotal", subtotal);
+    },
+    setProduct({ commit }, product) {
+      commit("setProduct", product);
     },
   },
   modules: {},

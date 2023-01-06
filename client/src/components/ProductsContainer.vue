@@ -6,10 +6,16 @@
         v-bind:key="index"
         v-for="(product, index) in products"
         className="product"
+        @click.self="routeToProduct(product.id)"
       >
-        <img :src="product.thumbnail" />
-        <p>{{ product.title }}</p>
-        <p>R$ {{ product.price.toFixed(2) }}</p>
+        <img
+          :src="product.thumbnail"
+          @click.self="routeToProduct(product.id)"
+        />
+        <p @click.self="routeToProduct(product.id)">{{ product.title }}</p>
+        <p @click.self="routeToProduct(product.id)">
+          R$ {{ product.price.toFixed(2) }}
+        </p>
         <AddToCartButtonVue :product="product" v-if="!isInCart(product.id)" />
         <QuantityEditorVue
           :product="productInCart(product.id)"
@@ -48,6 +54,7 @@ import { mapState } from "vuex";
 import AddToCartButtonVue from "./AddToCartButton.vue";
 import QuantityEditorVue from "./QuantityEditor.vue";
 import store from "../store";
+import router from "../router";
 
 export default defineComponent({
   name: "ProductsContainer",
@@ -69,6 +76,11 @@ export default defineComponent({
       isInCart,
       productInCart,
     };
+  },
+  methods: {
+    routeToProduct(id: string) {
+      router.push(`/${id}`);
+    },
   },
 });
 </script>
