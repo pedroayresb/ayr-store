@@ -1,4 +1,4 @@
-# AyrStore
+# AyrStore - Projeto ainda em andamento
 
 AyrStore é uma loja virtual de artigos de tecnologia que usa a API do Mercado Livre para fornecer uma ampla seleção de itens de tecnologia aos seus clientes. Desenvolvido com Vue e NodeJS, este projeto permite que os usuários filtrem itens por categoria, pesquisem, adicionem itens ao carrinho, excluam itens, editem suas compras, finalizem compras e editem suas contas no site.
 
